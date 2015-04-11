@@ -1,6 +1,10 @@
 package games
 
-import "github.com/willitlaunch/willitlaunch-go"
+type Event struct {
+	gid   int
+	wid   int
+	value interface{}
+}
 
 type Game interface {
 	Init()
