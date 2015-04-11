@@ -10,14 +10,13 @@ const addr = ":8080"
 
 func main() {
   http.HandleFunc("/", serveHome)
+  http.HandleFunc("/ws", serveWs)
   if err := http.ListenAndServe(addr, nil); err != nil {
     log.Fatal(err)
   }
 }
 
-
 // Serves static empty-ish home
-
 func serveHome(w http.ResponseWriter, r *http.Request) {
   if r.URL.Path != "/" {
     http.Error(w, "Not found", 404)
