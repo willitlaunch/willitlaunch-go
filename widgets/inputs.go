@@ -1,3 +1,4 @@
+// Inputs widget
 package widgets
 
 type Slider struct {
