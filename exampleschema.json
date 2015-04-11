@@ -1,0 +1,29 @@
+//INIT JSON -- DEMO
+{
+  "inputWidgets":[
+    { "gid":1, "wid":1, "type":"button", "label":"Boom!", "value":true},
+    { "gid":1, "wid":2, "type":"slider", "label":"Target Temperature", "value":23.7, "min":-273.7, "max":10000.0},
+    { "gid":2, "wid":1, "type":"toggle", "label":"Engine on", "value":false},
+    { "gid":3, "wid":1, "type":"selector", "label":"Speaker Volume", "value":3, "options": [0,1,2,3,4,5]},
+  ],
+  "outputWidgets":[
+    { "gid":1, "wid":3, "type":"dial", "label":"Voltage", "value":1.0, "min":0.0, "max":5.0},  //or "bar" or "number"
+    { "gid":2, "wid":2, "type":"bars", "label":"Fuel levels", "values":[23.7,10.0], "mins":[0.0,0.0], "maxes":[10.0,11.0]}, //or "numbers" or "dials"
+    { "gid":2, "wid":3, "type":"bool", "label":"Engine on", "value":true},
+    { "gid":3, "wid":3, "type":"bools", "label":"Warning lights", "values":[true, false, true, true]},
+    { "gid":3, "wid":2, "type":"map", "label":"Radar", "values":[[0.1,0.2], [0.5,0.7], [0.15,0.7]], "types": ["dot", "cloud", "wind"], "maptype": "radar"} //values in [0,1]^d, maptype yuo choose
+  ],
+  "objectiveList":["obj1", "obj2", "obj3"]
+}
+
+
+//UPDATE JSON -- DEMO
+{
+  "outputWidgets":[
+    { "gid":1, "wid":3, "type":"dial", "label":"Voltage", "value":1.0, "min":0.0, "max":5.0},  //or "bar" or "number"
+    { "gid":2, "wid":2, "type":"bars", "label":"Fuel levels", "values":[23.7,10.0], "mins":[0.0,0.0], "maxes":[10.0,11.0]}, //or "numbers" or "dials"
+    { "gid":2, "wid":3, "type":"bool", "label":"Engine on", "value":true},
+    { "gid":3, "wid":3, "type":"bools", "label":"Warning lights", "values":[true, false, true, true]},
+    { "gid":3, "wid":2, "type":"map", "label":"Radar", "values":[[0.1,0.2], [0.5,0.7], [0.15,0.7]], "types": ["dot", "cloud", "wind"], "maptype": "radar"} //values in [0,1]^d, maptype yuo choose
+  ]
+}
