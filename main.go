@@ -4,8 +4,10 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"text/template"
+	"time"
 )
 
 // Store all the players we know about
@@ -24,6 +26,7 @@ var addr = flag.String("addr", ":8080", "http host:port")
 // Start and run the websockets server on the commandline supplied port
 func main() {
 	World.players = make(map[string]Player, 0)
+	rand.Seed(time.Now().UTC().UnixNano())
 	http.HandleFunc("/", serveHome)
 	http.HandleFunc("/ws", serveWs)
 	fmt.Printf("Starting web server on %s...\n", *addr)
