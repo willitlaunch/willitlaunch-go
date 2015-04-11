@@ -1,0 +1,35 @@
+package controllers
+
+import "math/rand"
+
+type Event struct {
+	gid   int
+	wid   int
+	value interface{}
+}
+
+type FlightController interface {
+	Init()
+	Tick()
+	Update(event Event)
+	GetInitJSON() []byte
+	GetTickJSON() []byte
+}
+
+func GetRandomController() FlightController {
+	idx := rand.Int31n(5)
+	var c FlightController
+	switch idx {
+	case 0:
+		c = new(ControlController)
+	case 1:
+		c = new(EECOMController)
+	case 2:
+		c = new(FIDOController)
+	case 3:
+		c = new(GNCController)
+	case 4:
+		c = new(SurgeonController)
+	}
+	return c
+}
