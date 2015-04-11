@@ -3,9 +3,9 @@ package controllers
 import "math/rand"
 
 type Event struct {
-	gid   int
-	wid   int
-	value interface{}
+	Gid   int
+	Wid   int
+	Value interface{}
 }
 
 type FlightController interface {

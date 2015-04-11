@@ -1,9 +1,9 @@
 package games
 
 type Event struct {
-	gid   int
-	wid   int
-	value interface{}
+	Gid   int
+	Wid   int
+	Value interface{}
 }
 
 type Game interface {
