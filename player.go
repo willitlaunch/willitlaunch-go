@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gorilla/websocket"
 	"github.com/willitlaunch/willitlaunch-go/controllers"
@@ -52,6 +53,11 @@ func (p *Player) listen() {
 }
 
 func (p *Player) update(msg []byte) {
+	var event controllers.Event
+	err := json.Unmarshal(msg, &event)
+	if err == nil {
+		p.controller.Update(event)
+	}
 }
 
 func (p *Player) run() {

@@ -61,6 +61,9 @@ div pre {
 }
 </style>
 <div id=data></div>
+<button id=tranq onclick="tranq()">Tranqs</button>
+<button id=steroid onclick="steroid()">Steroids</button>
+<button id=aed onclick="aed()">AED</button>
 <script>
 	d = document.getElementById("data");
 	function log (msg) {
@@ -76,5 +79,15 @@ div pre {
 	c.onmessage = function(e) {
 		log(e.data);
 	};
+	window.c = c;
+	function tranq(e) {
+		window.c.send('{"Gid":0,"Wid":1,"Value":true}');
+	}
+	function steroid(e) {
+		window.c.send('{"Gid":0,"Wid":2,"Value":true}');
+	}
+	function aed(e) {
+		window.c.send('{"Gid":0,"Wid":3,"Value":true}');
+	}
 </script>
 `
