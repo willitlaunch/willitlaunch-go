@@ -57,7 +57,7 @@ func (g *CabinPressureGame) UserInteractionUpdate() {
 
 	if g.CLResetButton.Value {
 		g.CLResetButton.Value = false
-		g.broken = []bool{true, false, false}[rand.Intn(2)]
+		g.broken = []bool{true, false, false}[rand.Intn(3)]
 	}
 
 	// if out of bound -> broken
