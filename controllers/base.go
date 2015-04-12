@@ -1,6 +1,11 @@
 package controllers
 
-import "math/rand"
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/willitlaunch/willitlaunch-go/games"
+	"math/rand"
+)
 
 type Event struct {
 	Gid   int
@@ -34,4 +39,86 @@ func GetRandomController() FlightController {
 	}
 	c.Init()
 	return c
+}
+
+type FlightControllerImpl struct {
+	Name  string
+	Games []games.Game
+}
+
+func (fc *FlightControllerImpl) Tick() {
+	for _, game := range fc.Games {
+		game.Tick()
+	}
+}
+
+func (fc *FlightControllerImpl) Update(event Event) {
+	for _, game := range fc.Games {
+		if game.GetGid() == event.Gid {
+			evt := games.Event{Gid: event.Gid, Wid: event.Wid, Value: event.Value}
+			game.Update(evt)
+			return
+		}
+	}
+}
+
+func (fc *FlightControllerImpl) GetInitJSON() []byte {
+	var inputStates []interface{}
+	var outputStates []interface{}
+	var objectives []interface{}
+	for _, game := range fc.Games {
+		for _, state := range game.GetOutputsState() {
+			outputStates = append(outputStates, state)
+		}
+		for _, state := range game.GetInputsState() {
+			inputStates = append(inputStates, state)
+		}
+		for _, objective := range game.GetObjectives() {
+			objectives = append(objectives, objective)
+		}
+	}
+
+	output := map[string]interface{}{
+		"inputWidgets":  inputStates,
+		"outputWidgets": outputStates,
+		"objectives":    objectives,
+		"name":          fc.Name,
+	}
+	out, err := json.Marshal(output)
+	if err != nil {
+		out = []byte{'E', 'r', 'r', 'o', 'r'}
+		fmt.Println("error:", err)
+		return out
+	}
+	return out
+}
+
+func (fc *FlightControllerImpl) GetTickJSON() []byte {
+	var outputStates []interface{}
+	for _, game := range fc.Games {
+		for _, state := range game.GetOutputsState() {
+			outputStates = append(outputStates, state)
+		}
+	}
+	output := map[string]interface{}{
+		"outputWidgets": outputStates,
+	}
+
+	out, err := json.Marshal(output)
+	if err != nil {
+		out := []byte{'E', 'r', 'r', 'o', 'r'}
+		fmt.Println("error:", err)
+		return out
+	}
+
+	return out
+}
+
+func (fc *FlightControllerImpl) CheckObjectives() bool {
+	// Emptyset gives true!
+	won := true
+	for _, game := range fc.Games {
+		won = game.CheckObjectives() && won
+	}
+	return won
 }

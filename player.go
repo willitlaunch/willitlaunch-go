@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/websocket"
 	"github.com/willitlaunch/willitlaunch-go/controllers"
 	"time"
@@ -91,7 +90,6 @@ func (p *Player) run() {
 }
 
 func (p *Player) tick() {
-	fmt.Printf("Player %s tick\n", p.id)
 	p.controller.Tick()
 }
 
