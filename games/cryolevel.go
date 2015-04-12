@@ -47,7 +47,7 @@ func (g *CryogenicLevelsGame) Tick() {
 }
 
 func flowEffect(g *CryogenicLevelsGame) float64 {
-	return float64(g.CryogenicLevel) * (1.0 + g.cryogenicFlow*rand.Float64()*0.03/20 + 0.005*(rand.Float64()-0.5))
+	return float64(g.CryogenicLevel) * (1.0 + g.cryogenicFlow*rand.Float64()*0.03/20 + 0.005*(rand.Float64()-0.05))
 }
 
 func (g *CryogenicLevelsGame) UserInteractionUpdate() {
