@@ -17,10 +17,10 @@ type Game interface {
 	CheckObjectives() bool
 }
 
-type GameImpl struct {
+type GameBase struct {
 	Gid int
 }
 
-func (g *GameImpl) GetGid() int {
+func (g *GameBase) GetGid() int {
 	return g.Gid
 }
