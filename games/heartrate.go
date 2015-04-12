@@ -23,6 +23,7 @@ func (hr *HeartRateGame) Init() {
 	hr.TranqButton.Init()
 	hr.SteroidButton.Init()
 	hr.AEDButton.Init()
+	hr.HeartRate = 100
 }
 
 func (hr *HeartRateGame) Tick() {
