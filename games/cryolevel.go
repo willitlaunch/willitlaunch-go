@@ -3,7 +3,7 @@ package games
 import (
 	"github.com/willitlaunch/willitlaunch-go/widgets"
 	"math/rand"
-  "fmt"
+  //"fmt"
 )
 
 const (
@@ -11,7 +11,7 @@ const (
 	lmax      = 100
 	fmin      = -10
 	fmax      = 10
-	maxbroken = 100
+	maxbroken = 10
 )
 
 type CryogenicLevelsGame struct {
@@ -48,8 +48,8 @@ func (g *CryogenicLevelsGame) Tick() {
 }
 
 func flowEffect(g *CryogenicLevelsGame) float64 {
-  val := float64(g.CryogenicLevel) * (1.0 + g.cryogenicFlow*rand.Float64()/10*0.03 + 0.005*(rand.Float64()-0.2))
-  fmt.Println("{CryoLevel : ", g.CryogenicLevel, ", cryoFlow: ", g.cryogenicFlow, "pressuriser effect: ", val, "}")
+  val := float64(g.CryogenicLevel) + g.cryogenicFlow/2.0 + 3.0 * (rand.Float64()-0.5)
+  //fmt.Println("{CryoLevel : ", g.CryogenicLevel, ", cryoFlow: ", g.cryogenicFlow, "pressuriser effect: ", val, "}")
 	return val
 }
 
@@ -61,7 +61,7 @@ func (g *CryogenicLevelsGame) UserInteractionUpdate() {
 		level = rand.Intn(lmax-lmin) + lmin
 		g.count = 0
 		g.broken = false
-		g.CLBool.Value = false
+		g.CLBool.Value = true
 	}
 	if g.broken {
 		level = rand.Intn(lmax-lmin) + lmin
@@ -70,12 +70,14 @@ func (g *CryogenicLevelsGame) UserInteractionUpdate() {
 
 	if level >= lmax || level <= lmin {
 		g.broken = true
+    g.CLBool.Value = false
 	}
 
 	if level > 100 {
 		level = 100
 	} else if level <= 0 {
 		level = 0
+    g.broken = true
 		g.CLBool.Value = false
 	}
 

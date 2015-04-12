@@ -3,7 +3,7 @@ package games
 import (
 	"github.com/willitlaunch/willitlaunch-go/widgets"
 	"math/rand"
-  "fmt"
+  //"fmt"
 )
 
 type CabinPressureGame struct {
@@ -46,8 +46,8 @@ func (g *CabinPressureGame) Tick() {
 }
 
 func pressuriserEffect(g *CabinPressureGame) float64 {
-  val := float64(g.CabinPressure) * (1.0 + g.pressuriser/10*0.1 + 0.005*(rand.Float64()-0.2))
-  fmt.Println("{Pressure: ", g.CabinPressure, ", pressuriser: ", g.pressuriser, "pressuriser effect: ", val,"}")
+  val := float64(g.CabinPressure) + g.pressuriser/2.0 + 3.0 * (rand.Float64()-0.5)
+  //fmt.Println("{Pressure: ", g.CabinPressure, ", pressuriser: ", g.pressuriser, "pressuriser effect: ", val,"}")
 	return val
 }
 
@@ -57,7 +57,7 @@ func (g *CabinPressureGame) UserInteractionUpdate() {
 
 	if g.CLResetButton.Value {
 		g.CLResetButton.Value = false
-		g.broken = []bool{true, false}[rand.Intn(2)]
+		g.broken = []bool{true, false, false}[rand.Intn(2)]
 	}
 
 	// if out of bound -> broken
