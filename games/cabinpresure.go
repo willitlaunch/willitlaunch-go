@@ -12,7 +12,7 @@ type CabinPressureGame struct {
 	CLPressuriserSlider widgets.Slider
 	CLResetButton       widgets.Button
 
-	pressuriser float32
+	pressuriser float64
 	broken      bool
 }
 
@@ -44,8 +44,8 @@ func (g *CabinPressureGame) Tick() {
 	g.CLDial.Value = float32(g.CabinPressure)
 }
 
-func pressuriserEffect(g *CabinPressureGame) float32 {
-	return float32(g.CabinPressure) * (1.0 + g.pressuriser*0.5 + 0.05*(rand.Float32()-0.5))
+func pressuriserEffect(g *CabinPressureGame) float64 {
+	return float64(g.CabinPressure) * (1.0 + g.pressuriser*0.5 + 0.05*(rand.Float64()-0.5))
 }
 
 func (g *CabinPressureGame) UserInteractionUpdate() {
@@ -76,7 +76,7 @@ func (g *CabinPressureGame) UserInteractionUpdate() {
 func (g *CabinPressureGame) Update(event Event) {
 	switch event.Wid {
 	case 1:
-		g.pressuriser = event.Value.(float32)
+		g.pressuriser = event.Value.(float64)
 	case 2:
 		g.CLResetButton.Value = event.Value.(bool)
 	}

@@ -16,7 +16,7 @@ func (c *EECOMController) Init() {
 	CLGame.Init()
 	c.Games = append(c.Games, &CLGame)
 
-	CPGame := games.CabinPressureGame{Gid: 1}
+	CPGame := games.CabinPressureGame{GameBase: games.GameBase{Gid: 1}}
 	CPGame.Init()
 	c.Games = append(c.Games, &CPGame)
 
