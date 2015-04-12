@@ -12,7 +12,7 @@ const (
 	wsWriteWait  = 10 * time.Second
 	wsPongWait   = 60 * time.Second
 	wsPingPeriod = (wsPongWait * 9) / 10
-	tickPeriod   = time.Second
+	tickPeriod   = time.Second / 10
 )
 
 type Player struct {
