@@ -10,7 +10,7 @@ type SurgeonController struct {
 
 func (c *SurgeonController) Init() {
 	c.Name = "Surgeon"
-	HRGame := games.HeartRateGame{Gid: 0}
+	HRGame := games.HeartRateGame{GameImpl: games.GameImpl{Gid: 0}}
 	HRGame.Init()
 	c.Games = append(c.Games, &HRGame)
 }
