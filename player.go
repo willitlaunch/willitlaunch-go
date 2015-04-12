@@ -69,7 +69,7 @@ func (p *Player) run() {
 		case <-tickTicker.C:
 			p.ws.SetWriteDeadline(time.Now().Add(wsWriteWait))
 			p.tick()
-			msg := p.getUpdateJSON()
+			msg := p.getTickJSON()
 			err := p.ws.WriteMessage(websocket.TextMessage, msg)
 			if err != nil {
 				return
@@ -80,9 +80,9 @@ func (p *Player) run() {
 
 func (p *Player) tick() {
 	fmt.Printf("Player %s tick\n", p.id)
+	p.controller.Tick()
 }
 
-func (p *Player) getUpdateJSON() []byte {
-	var msg = []byte{'t', 'i', 'c', 'k'}
-	return msg
+func (p *Player) getTickJSON() []byte {
+	return p.controller.GetTickJSON()
 }

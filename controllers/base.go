@@ -18,6 +18,7 @@ type FlightController interface {
 
 func GetRandomController() FlightController {
 	idx := rand.Int31n(5)
+	idx = 4 // TODO remove this
 	var c FlightController
 	switch idx {
 	case 0:
@@ -31,5 +32,6 @@ func GetRandomController() FlightController {
 	case 4:
 		c = new(SurgeonController)
 	}
+	c.Init()
 	return c
 }
