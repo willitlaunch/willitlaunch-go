@@ -76,12 +76,12 @@ func (hr *HeartRateGame) Update(event Event) {
 	}
 }
 
-func (hr *HeartRateGame) GetInputsState() []*widgets.Button {
-	return []*widgets.Button{&hr.TranqButton, &hr.SteroidButton, &hr.AEDButton}
+func (hr *HeartRateGame) GetInputsState() []interface{} {
+	return []interface{}{&hr.TranqButton, &hr.SteroidButton, &hr.AEDButton}
 }
 
-func (hr *HeartRateGame) GetOutputsState() []*widgets.Button {
-	return []*widgets.Button{&hr.AEDButton}
+func (hr *HeartRateGame) GetOutputsState() []interface{} {
+	return []interface{}{&hr.AEDButton}
 }
 
 func (hr *HeartRateGame) GetObjectives() []string {
