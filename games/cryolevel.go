@@ -8,8 +8,8 @@ import (
 const (
 	lmin      = 0
 	lmax      = 100
-	fmin      = -1.0
-	fmax      = 1.0
+	fmin      = -10
+	fmax      = 10
 	maxbroken = 100
 )
 
@@ -29,13 +29,13 @@ type CryogenicLevelsGame struct {
 
 func (g *CryogenicLevelsGame) Init() {
 	g.CLDial = widgets.Dial{WidgetBase: widgets.WidgetBase{Gid: g.Gid, Wid: 0, Label: "Cryogenic liquid level"}, Value: 50, Min: lmin, Max: lmax}
-	g.CLSlider = widgets.Slider{WidgetBase: widgets.WidgetBase{Gid: g.Gid, Wid: 1, Label: "Cryogenic liquid flow"}, Value: 0.5, Min: fmin, Max: fmax}
+	g.CLSlider = widgets.Slider{WidgetBase: widgets.WidgetBase{Gid: g.Gid, Wid: 1, Label: "Cryogenic liquid flow"}, Value: 2, Min: fmin, Max: fmax}
 	g.CLBool = widgets.Bool{WidgetBase: widgets.WidgetBase{Gid: g.Gid, Wid: 1, Label: "Fuel cells active"}, Value: true}
 	g.CLDial.Init()
 	g.CLSlider.Init()
 	g.CLBool.Init()
 	g.CryogenicLevel = 50
-	g.cryogenicFlow = 0.5
+	g.cryogenicFlow = 5
 	g.broken = false
 	g.count = 0
 }
@@ -47,7 +47,7 @@ func (g *CryogenicLevelsGame) Tick() {
 }
 
 func flowEffect(g *CryogenicLevelsGame) float64 {
-	return float64(g.CryogenicLevel) * (1.0 + g.cryogenicFlow*rand.Float64()*0.03 + 0.005*(rand.Float64()-0.5))
+	return float64(g.CryogenicLevel) * (1.0 + g.cryogenicFlow*rand.Float64()*0.03/20 + 0.005*(rand.Float64()-0.5))
 }
 
 func (g *CryogenicLevelsGame) UserInteractionUpdate() {
