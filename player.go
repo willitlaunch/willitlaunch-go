@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/websocket"
 	"github.com/willitlaunch/willitlaunch-go/controllers"
 	"time"
@@ -57,7 +56,6 @@ func (p *Player) update(msg []byte) {
 	err := json.Unmarshal(msg, &event)
 	if err == nil {
 		if event.Gid == 99 && event.Wid == 100 {
-			fmt.Println("Got GO/NOGO:", event)
 			World.GoNoGo <- event.Value.(bool)
 		} else {
 			p.controller.Update(event)
