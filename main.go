@@ -17,6 +17,7 @@ var World struct {
 	TimeLeft   time.Duration
 	GameLength time.Duration
 	GoNoGo     chan bool
+	Finished   bool
 }
 
 type Event struct {
@@ -31,6 +32,7 @@ var addr = flag.String("addr", ":8080", "http host:port")
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	World.players = make(map[string]Player, 0)
+	World.Finished = false
 	go missionTimer()
 	go missionControl()
 	http.HandleFunc("/", serveHome)

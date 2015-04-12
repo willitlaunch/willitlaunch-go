@@ -27,6 +27,10 @@ func missionTimer() {
 	}
 	World.StartTime = time.Now()
 	for {
+		if World.Finished {
+			return
+		}
+
 		World.TimeLeft = World.GameLength - time.Now().Sub(World.StartTime)
 		if World.TimeLeft <= 0 {
 			World.TimeLeft = 0
@@ -47,6 +51,9 @@ func missionTimer() {
 
 func missionControl() {
 	for {
+		if World.Finished {
+			return
+		}
 		time.Sleep(500 * time.Millisecond)
 		if len(World.players) == 0 {
 			continue
@@ -64,11 +71,13 @@ func missionControl() {
 
 func missionFailed() {
 	sendAllPlayers("FAILED")
+	World.Finished = true
 	fmt.Println("Mission Failed")
 }
 
 func missionSuccess() {
 	sendAllPlayers("SUCCESS")
+	World.Finished = true
 	fmt.Println("Mission Successful")
 }
 
@@ -103,8 +112,8 @@ func missionPoll() {
 	if allOk {
 		missionSuccess()
 	} else {
-		//missionSuccess()
-		missionFailed()
+		missionSuccess()
+		//missionFailed()
 	}
 }
 
