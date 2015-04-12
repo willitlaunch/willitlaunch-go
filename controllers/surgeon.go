@@ -19,7 +19,7 @@ func (c *SurgeonController) Init() {
 	CryoGame1 := games.CryogenicLevelsGame{GameBase: games.GameBase{Gid: 2}}
 	CryoGame1.Init()
 	CryoGame1.CLDial.Label = "Fluid Level"
-	CryoGame1.CLBool.Label = "Headache Detected"
+	CryoGame1.CLBool.Label = "No Headache Detected"
   CryoGame1.SetObjectives([]string{"Keep fluid level stable and in mid range", "Keep headaches under control"})
 	CryoGame2 := games.CryogenicLevelsGame{GameBase: games.GameBase{Gid: 3}}
 	CryoGame2.Init()
