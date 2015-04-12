@@ -25,7 +25,7 @@ type FlightController interface {
 	CheckObjectives() bool
 }
 
-const nControllers = 3
+const nControllers = 4
 
 func GetNextController(count int) FlightController {
 	ctype := count % nControllers
