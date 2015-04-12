@@ -3,6 +3,7 @@ package games
 import (
 	"github.com/willitlaunch/willitlaunch-go/widgets"
 	"math/rand"
+  "fmt"
 )
 
 type CabinPressureGame struct {
@@ -45,7 +46,9 @@ func (g *CabinPressureGame) Tick() {
 }
 
 func pressuriserEffect(g *CabinPressureGame) float64 {
-	return float64(g.CabinPressure) * (1.0 + g.pressuriser/10*0.03 + 0.005*(rand.Float64()-0.05))
+  val := float64(g.CabinPressure) * (1.0 + g.pressuriser/10*0.1 + 0.005*(rand.Float64()-0.2))
+  fmt.Println("{Pressure: ", g.CabinPressure, ", pressuriser: ", g.pressuriser, "pressuriser effect: ", val,"}")
+	return val
 }
 
 func (g *CabinPressureGame) UserInteractionUpdate() {
@@ -83,11 +86,11 @@ func (g *CabinPressureGame) Update(event Event) {
 }
 
 func (g *CabinPressureGame) GetInputsState() []interface{} {
-	return []interface{}{&g.CLPressuriserSlider}
+	return []interface{}{&g.CLPressuriserSlider, &g.CLResetButton}
 }
 
 func (g *CabinPressureGame) GetOutputsState() []interface{} {
-	return []interface{}{&g.CLDial, &g.CLResetButton}
+	return []interface{}{&g.CLDial}
 }
 
 func (g *CabinPressureGame) GetObjectives() []string {

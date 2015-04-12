@@ -3,6 +3,7 @@ package games
 import (
 	"github.com/willitlaunch/willitlaunch-go/widgets"
 	"math/rand"
+  "fmt"
 )
 
 const (
@@ -47,7 +48,9 @@ func (g *CryogenicLevelsGame) Tick() {
 }
 
 func flowEffect(g *CryogenicLevelsGame) float64 {
-	return float64(g.CryogenicLevel) * (1.0 + g.cryogenicFlow*rand.Float64()*0.03/20 + 0.005*(rand.Float64()-0.05))
+  val := float64(g.CryogenicLevel) * (1.0 + g.cryogenicFlow*rand.Float64()/10*0.03 + 0.005*(rand.Float64()-0.2))
+  fmt.Println("{CryoLevel : ", g.CryogenicLevel, ", cryoFlow: ", g.cryogenicFlow, "pressuriser effect: ", val, "}")
+	return val
 }
 
 func (g *CryogenicLevelsGame) UserInteractionUpdate() {
