@@ -39,6 +39,10 @@ func (hr *HeartRateGame) Tick() {
 	}
 }
 
+func (hr *HeartRateGame) GetGid() int {
+	return hr.Gid
+}
+
 func medicineEffect() int {
 	return rand.Intn(20) + 5
 }

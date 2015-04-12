@@ -9,9 +9,10 @@ type Event struct {
 type Game interface {
 	Init()
 	Tick()
+	GetGid() int
 	Update(event Event)
 	GetInputsState() []interface{}
 	GetOutputsState() []interface{}
 	GetObjectives() []string
-  CheckObjectives() bool
+	CheckObjectives() bool
 }
