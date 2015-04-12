@@ -22,8 +22,14 @@ type Player struct {
 
 func (p *Player) init() {
 	p.controller = controllers.GetRandomController()
-	go p.listen()
-	go p.run()
+	init_msg := p.controller.GetInitJSON()
+	err := p.ws.WriteMessage(websocket.TextMessage, init_msg)
+	if err != nil {
+		go p.listen()
+		go p.run()
+	} else {
+		p.ws.Close()
+	}
 }
 
 func (p *Player) listen() {
