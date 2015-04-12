@@ -25,8 +25,10 @@ type FlightController interface {
 	CheckObjectives() bool
 }
 
+const nControllers = 2
+
 func GetNextController(count int) FlightController {
-	ctype := count % 5
+	ctype := count % nControllers
 	var c FlightController
 	switch ctype {
 	case 0:
@@ -41,7 +43,7 @@ func GetNextController(count int) FlightController {
 		c = new(ControlController)
 	}
 	c.Init()
-	c.SetName(fmt.Sprintf("%s %d", c.GetName(), count/5+1))
+	c.SetName(fmt.Sprintf("%s %d", c.GetName(), count/nControllers+1))
 	return c
 }
 
@@ -52,7 +54,8 @@ type FlightControllerBase struct {
 }
 
 func (fc *FlightControllerBase) Init() {
-	fc.ReadyBtn = widgets.Button{WidgetBase: widgets.WidgetBase{Gid: 999, Wid: 999, Label: "READY"}, Value: false}
+	fc.ReadyBtn = widgets.Button{WidgetBase: widgets.WidgetBase{Gid: 99, Wid: 99, Label: "READY"}, Value: false}
+	fc.ReadyBtn.Init()
 }
 
 func (fc *FlightControllerBase) Tick() {
@@ -70,7 +73,7 @@ func (fc *FlightControllerBase) Update(event Event) {
 		}
 	}
 
-	if event.Gid == 999 {
+	if event.Gid == 99 {
 		fc.ReadyBtn.Value = event.Value.(bool)
 	}
 }
@@ -79,6 +82,7 @@ func (fc *FlightControllerBase) GetInitJSON() []byte {
 	var inputStates []interface{}
 	var outputStates []interface{}
 	var objectives []interface{}
+	inputStates = append(inputStates, fc.ReadyBtn)
 	for _, game := range fc.Games {
 		for _, state := range game.GetOutputsState() {
 			outputStates = append(outputStates, state)
@@ -141,7 +145,11 @@ func (fc *FlightControllerBase) GetIsReady() bool {
 }
 
 func (fc *FlightControllerBase) GetName() string {
-	return fc.Name
+	if &fc.Name != nil {
+		return fc.Name
+	} else {
+		return ""
+	}
 }
 
 func (fc *FlightControllerBase) SetName(s string) {

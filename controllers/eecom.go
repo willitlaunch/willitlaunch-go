@@ -9,7 +9,8 @@ type EECOMController struct {
 }
 
 func (c *EECOMController) Init() {
-	c.Name = "Electrical, Environmental and Consumables Manager (EECOM)"
+	c.FlightControllerBase.Init()
+	c.Name = "EECOM"
 
 	CLGame := games.CryogenicLevelsGame{GameBase: games.GameBase{Gid: 0}}
 	CLGame.Init()

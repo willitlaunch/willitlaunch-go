@@ -55,7 +55,7 @@ func (p *Player) update(msg []byte) {
 	var event controllers.Event
 	err := json.Unmarshal(msg, &event)
 	if err == nil {
-		if event.Gid == 999 && event.Wid == 1000 {
+		if event.Gid == 99 && event.Wid == 100 {
 			World.GoNoGo <- event.Value.(bool)
 		} else {
 			p.controller.Update(event)

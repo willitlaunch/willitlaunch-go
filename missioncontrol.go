@@ -2,33 +2,36 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/websocket"
 	"time"
 )
 
 type timeMsg struct {
-	timeLeft time.Duration
+	TimeLeft int
 }
 
 type statusMsg struct {
-	status string
+	Status string
 }
 
 type pollMsg struct {
-	status         string
-	controllerName string
+	Status         string
+	ControllerName string
 }
 
 func missionTimer() {
 	World.GameLength = 60e3 * time.Millisecond
+	for len(World.players) == 0 {
+		time.Sleep(100 * time.Millisecond)
+	}
 	World.StartTime = time.Now()
 	for {
 		World.TimeLeft = World.GameLength - time.Now().Sub(World.StartTime)
 		if World.TimeLeft <= 0 {
 			World.TimeLeft = 0
 		}
-		time_msg := timeMsg{World.TimeLeft}
-		msg, _ := json.Marshal(time_msg)
+		msg, _ := json.Marshal(timeMsg{int(World.TimeLeft) / 1e9})
 
 		for _, player := range World.players {
 			player.ws.WriteMessage(websocket.TextMessage, msg)
@@ -38,16 +41,21 @@ func missionTimer() {
 			missionFailed()
 			return
 		}
+		time.Sleep(100 * time.Millisecond)
 	}
 }
 
 func missionControl() {
 	for {
+		time.Sleep(500 * time.Millisecond)
+		if len(World.players) == 0 {
+			continue
+		}
 		allReady := true
 		for _, player := range World.players {
 			allReady = allReady && player.controller.GetIsReady()
 		}
-		if allReady {
+		if allReady && len(World.players) > 0 {
 			missionPoll()
 		}
 	}
@@ -89,7 +97,10 @@ func missionPoll() {
 }
 
 func sendAllPlayers(s string) {
-	msg, _ := json.Marshal(statusMsg{s})
+	msg, err := json.Marshal(statusMsg{s})
+	if err != nil {
+		fmt.Println("err encoding json:", err)
+	}
 	for _, player := range World.players {
 		player.ws.WriteMessage(websocket.TextMessage, msg)
 	}

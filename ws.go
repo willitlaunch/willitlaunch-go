@@ -10,6 +10,9 @@ import (
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
 }
 
 // Handle a new websocket connection
@@ -25,6 +28,6 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("New connection from", r.RemoteAddr)
 
 	player := Player{ws: ws, id: r.RemoteAddr}
-	World.players[player.id] = player
 	player.init()
+	World.players[player.id] = player
 }
