@@ -14,7 +14,7 @@ func (c *EECOMController) Init() {
 
 	CLGame1 := games.CryogenicLevelsGame{GameBase: games.GameBase{Gid: 0}}
 	CLGame1.Init()
-	CLGame1.CLDial.Label = "Cyro Level Left"
+	CLGame1.CLDial.Label = "Cryo Level Left"
 	c.Games = append(c.Games, &CLGame1)
 
 	CPGame1 := games.CabinPressureGame{GameBase: games.GameBase{Gid: 1}}
@@ -23,7 +23,7 @@ func (c *EECOMController) Init() {
 
 	CLGame2 := games.CryogenicLevelsGame{GameBase: games.GameBase{Gid: 2}}
 	CLGame2.Init()
-	CLGame1.CLDial.Label = "Cyro Level Right"
+	CLGame1.CLDial.Label = "Cryo Level Right"
 	c.Games = append(c.Games, &CLGame2)
 
 	CPGame2 := games.CabinPressureGame{GameBase: games.GameBase{Gid: 3}}
