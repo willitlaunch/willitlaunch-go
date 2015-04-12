@@ -16,3 +16,11 @@ type Game interface {
 	GetObjectives() []string
 	CheckObjectives() bool
 }
+
+type GameImpl struct {
+	Gid int
+}
+
+func (g *GameImpl) GetGid() int {
+	return g.Gid
+}

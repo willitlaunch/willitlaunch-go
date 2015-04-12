@@ -6,16 +6,16 @@ import (
 )
 
 type HeartRateGame struct {
+	GameImpl
 	HeartRate     int
-	Gid           int
-	HRWidget      widgets.Number
+	HRWidget      widgets.Dial
 	TranqButton   widgets.Button
 	SteroidButton widgets.Button
 	AEDButton     widgets.Button
 }
 
 func (hr *HeartRateGame) Init() {
-	hr.HRWidget = widgets.Number{Gid: hr.Gid, Wid: 0, Label: "Heart Rate", Value: 100, Min: 0, Max: 200}
+	hr.HRWidget = widgets.Dial{Gid: hr.Gid, Wid: 0, Label: "Heart Rate", Value: 100, Min: 0, Max: 200}
 	hr.TranqButton = widgets.Button{Gid: hr.Gid, Wid: 1, Label: "Tranquilizers", Value: false}
 	hr.SteroidButton = widgets.Button{Gid: hr.Gid, Wid: 2, Label: "Steroids", Value: false}
 	hr.AEDButton = widgets.Button{Gid: hr.Gid, Wid: 3, Label: "AED", Value: false}
@@ -42,10 +42,6 @@ func (hr *HeartRateGame) Tick() {
 	hr.HRWidget.Value = float32(hr.HeartRate)
 }
 
-func (hr *HeartRateGame) GetGid() int {
-	return hr.Gid
-}
-
 func medicineEffect() int {
 	return rand.Intn(20) + 5
 }
@@ -61,7 +57,7 @@ func (hr *HeartRateGame) UserInteractionUpdate() {
 		hr.AEDButton.Value = false
 		if hr.HeartRate != 0 {
 			// Fibrillation
-			hr.HeartRate = []int{rand.Intn(450) + 100,0}[rand.Intn(2)]
+			hr.HeartRate = []int{rand.Intn(450) + 100, 0}[rand.Intn(2)]
 		} else {
 			hr.HeartRate += rand.Intn(20) + 60
 		}
