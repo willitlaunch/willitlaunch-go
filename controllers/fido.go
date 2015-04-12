@@ -23,5 +23,6 @@ func (c *FIDOController) Init() {
   YWGame.AngleWidget.Label = "Y Rocket Angle"
   YWGame.WindWidget.Label = "Y Wind Strength"
   YWGame.ControlSlider.Label = "Y Wind Compensation"
+  YWGame.SetObjectives([]string{})
   c.Games = append(c.Games, &YWGame)
 }

@@ -3,7 +3,7 @@ package games
 import (
 	"github.com/willitlaunch/willitlaunch-go/widgets"
 	"math/rand"
-  //"fmt"
+	//"fmt"
 )
 
 type CabinPressureGame struct {
@@ -15,6 +15,7 @@ type CabinPressureGame struct {
 
 	pressuriser float64
 	broken      bool
+	objectives  []string
 }
 
 const (
@@ -37,6 +38,7 @@ func (g *CabinPressureGame) Init() {
 	g.CabinPressure = 50
 	g.pressuriser = 2
 	g.broken = false
+	g.objectives = []string{"Cryogenic Liquid must not overflow", "Cryogenic Liquid must not completely vanish", "Cryogenic Liquid must stay in a mid range"}
 }
 
 func (g *CabinPressureGame) Tick() {
@@ -46,8 +48,8 @@ func (g *CabinPressureGame) Tick() {
 }
 
 func pressuriserEffect(g *CabinPressureGame) float64 {
-  val := float64(g.CabinPressure) + g.pressuriser/2.0 + 3.0 * (rand.Float64()-0.5)
-  //fmt.Println("{Pressure: ", g.CabinPressure, ", pressuriser: ", g.pressuriser, "pressuriser effect: ", val,"}")
+	val := float64(g.CabinPressure) + g.pressuriser/2.0 + 3.0*(rand.Float64()-0.5)
+	//fmt.Println("{Pressure: ", g.CabinPressure, ", pressuriser: ", g.pressuriser, "pressuriser effect: ", val,"}")
 	return val
 }
 
@@ -95,7 +97,11 @@ func (g *CabinPressureGame) GetOutputsState() []interface{} {
 
 func (g *CabinPressureGame) GetObjectives() []string {
 	//healthy:  35 < mid range < 65
-	return []string{"Cryogenic Liquid must not overflow", "Cryogenic Liquid must not completely vanish", "Cryogenic Liquid must stay in a mid range"}
+	return g.objectives
+}
+
+func (g *CabinPressureGame) SetObjectives(objs []string) {
+	g.objectives = objs
 }
 
 func (g *CabinPressureGame) CheckObjectives() bool {

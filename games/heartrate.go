@@ -12,6 +12,8 @@ type HeartRateGame struct {
 	TranqButton   widgets.Button
 	SteroidButton widgets.Button
 	AEDButton     widgets.Button
+
+	objectives []string
 }
 
 func (hr *HeartRateGame) Init() {
@@ -24,6 +26,7 @@ func (hr *HeartRateGame) Init() {
 	hr.SteroidButton.Init()
 	hr.AEDButton.Init()
 	hr.HeartRate = 100
+	hr.objectives = []string{"Astronaut must have a healthy HR", "Astronaut heart must be beating"}
 }
 
 func (hr *HeartRateGame) Tick() {
@@ -85,7 +88,11 @@ func (hr *HeartRateGame) GetOutputsState() []interface{} {
 
 func (hr *HeartRateGame) GetObjectives() []string {
 	//healthy:  60 < HR < 120
-	return []string{"Astronaut must have a healthy HR", "Astronaut heart must be beating"}
+	return hr.objectives
+}
+
+func (g *HeartRateGame) SetObjectives(objs []string) {
+	g.objectives = objs
 }
 
 func (hr *HeartRateGame) CheckObjectives() bool {

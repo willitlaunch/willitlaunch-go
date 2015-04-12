@@ -3,7 +3,7 @@ package games
 import (
 	"github.com/willitlaunch/willitlaunch-go/widgets"
 	"math/rand"
-  //"fmt"
+	//"fmt"
 )
 
 type WindGame struct {
@@ -14,6 +14,8 @@ type WindGame struct {
 	AngleWidget   widgets.Dial
 	WindWidget    widgets.Bar
 	ControlSlider widgets.Slider
+
+	objectives []string
 }
 
 func (w *WindGame) Init() {
@@ -26,6 +28,7 @@ func (w *WindGame) Init() {
 	w.AngleWidget.Init()
 	w.WindWidget.Init()
 	w.ControlSlider.Init()
+	w.objectives = []string{"Keep the launch angle up!"}
 }
 
 func (w *WindGame) Tick() {
@@ -40,13 +43,13 @@ func (w *WindGame) Tick() {
 	w.LaunchAngle += 0.5 * w.InputAngle
 	w.LaunchAngle += 0.2 * w.WindStrength
 
-  if w.LaunchAngle < 0 {
-    w.LaunchAngle = 0
-  } else if w.LaunchAngle > 180 {
-    w.LaunchAngle = 180
-  }
+	if w.LaunchAngle < 0 {
+		w.LaunchAngle = 0
+	} else if w.LaunchAngle > 180 {
+		w.LaunchAngle = 180
+	}
 
-  //fmt.Printf("(input, wind, LaunchAngle) -> (%v, %v, %v)\n", w.InputAngle, w.WindStrength, w.LaunchAngle)
+	//fmt.Printf("(input, wind, LaunchAngle) -> (%v, %v, %v)\n", w.InputAngle, w.WindStrength, w.LaunchAngle)
 
 	w.WindWidget.Value = float32(w.WindStrength)
 	w.AngleWidget.Value = float32(w.LaunchAngle)
@@ -65,7 +68,11 @@ func (w *WindGame) GetOutputsState() []interface{} {
 }
 
 func (w *WindGame) GetObjectives() []string {
-	return []string{"Keep the launch angle up!"}
+	return w.objectives
+}
+
+func (g *WindGame) SetObjectives(objs []string) {
+	g.objectives = objs
 }
 
 func (w *WindGame) CheckObjectives() bool {

@@ -14,6 +14,7 @@ type Game interface {
 	GetInputsState() []interface{}
 	GetOutputsState() []interface{}
 	GetObjectives() []string
+	SetObjectives([]string)
 	CheckObjectives() bool
 }
 

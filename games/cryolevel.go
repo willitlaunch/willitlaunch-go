@@ -3,7 +3,7 @@ package games
 import (
 	"github.com/willitlaunch/willitlaunch-go/widgets"
 	"math/rand"
-  //"fmt"
+	//"fmt"
 )
 
 const (
@@ -24,6 +24,7 @@ type CryogenicLevelsGame struct {
 	cryogenicFlow float64
 	broken        bool
 	count         int
+	objectives    []string
 }
 
 //Cabin Pressure will be more or less identical
@@ -39,6 +40,7 @@ func (g *CryogenicLevelsGame) Init() {
 	g.cryogenicFlow = 5
 	g.broken = false
 	g.count = 0
+	g.objectives = []string{"Fuel cells must be active", "Cryogenic Liquid must stay in a mid range"}
 }
 
 func (g *CryogenicLevelsGame) Tick() {
@@ -48,8 +50,8 @@ func (g *CryogenicLevelsGame) Tick() {
 }
 
 func flowEffect(g *CryogenicLevelsGame) float64 {
-  val := float64(g.CryogenicLevel) + g.cryogenicFlow/2.0 + 3.0 * (rand.Float64()-0.5)
-  //fmt.Println("{CryoLevel : ", g.CryogenicLevel, ", cryoFlow: ", g.cryogenicFlow, "pressuriser effect: ", val, "}")
+	val := float64(g.CryogenicLevel) + g.cryogenicFlow/2.0 + 3.0*(rand.Float64()-0.5)
+	//fmt.Println("{CryoLevel : ", g.CryogenicLevel, ", cryoFlow: ", g.cryogenicFlow, "pressuriser effect: ", val, "}")
 	return val
 }
 
@@ -70,14 +72,14 @@ func (g *CryogenicLevelsGame) UserInteractionUpdate() {
 
 	if level >= lmax || level <= lmin {
 		g.broken = true
-    g.CLBool.Value = false
+		g.CLBool.Value = false
 	}
 
 	if level > 100 {
 		level = 100
 	} else if level <= 0 {
 		level = 0
-    g.broken = true
+		g.broken = true
 		g.CLBool.Value = false
 	}
 
@@ -99,7 +101,11 @@ func (g *CryogenicLevelsGame) GetOutputsState() []interface{} {
 
 func (g *CryogenicLevelsGame) GetObjectives() []string {
 	//healthy:  35 < mid range < 65
-	return []string{"Fuel cells must be active", "Cryogenic Liquid must stay in a mid range"}
+	return g.objectives
+}
+
+func (g *CryogenicLevelsGame) SetObjectives(objs []string) {
+	g.objectives = objs
 }
 
 func (g *CryogenicLevelsGame) CheckObjectives() bool {
