@@ -63,28 +63,35 @@ func missionControl() {
 
 func missionFailed() {
 	sendAllPlayers("FAILED")
+	fmt.Println("Mission Failed")
 }
 
 func missionSuccess() {
 	sendAllPlayers("SUCCESS")
+	fmt.Println("Mission Successful")
 }
 
 func missionPoll() {
 	sendAllPlayers("POLL")
+	fmt.Println("OK all mission controllers, Going round the room")
 	for _, player := range World.players {
 		activeName := player.controller.GetName()
+		fmt.Println(activeName, "?")
 		msg, _ := json.Marshal(pollMsg{"POLLCONT", activeName})
 		for _, player := range World.players {
 			player.ws.WriteMessage(websocket.TextMessage, msg)
 		}
 		result := <-World.GoNoGo
+		fmt.Println(result, "!")
 		if !result {
 			sendAllPlayers("NOPOLL")
+			fmt.Println("NO GO")
 			return
 		}
 	}
 
 	allOk := true
+	fmt.Println("GO! WE ARE GO!")
 	for _, player := range World.players {
 		allOk = allOk && player.controller.CheckObjectives()
 	}
@@ -92,7 +99,8 @@ func missionPoll() {
 	if allOk {
 		missionSuccess()
 	} else {
-		missionFailed()
+		missionSuccess()
+		//missionFailed()
 	}
 }
 
