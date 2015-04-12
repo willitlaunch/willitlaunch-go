@@ -2,10 +2,7 @@
 package widgets
 
 type Dial struct {
-	Style string
-	Gid   int
-	Wid   int
-	Label string
+	WidgetBase
 	Value float32
 	Min   float32
 	Max   float32
@@ -27,10 +24,7 @@ func (n *Number) Init() {
 }
 
 type Bool struct {
-	Style string
-	Gid   int
-	Wid   int
-	Label string
+	WidgetBase
 	Value bool
 }
 
@@ -39,10 +33,7 @@ func (b *Bool) Init() {
 }
 
 type Bools struct {
-	Style  string
-	Gid    int
-	Wid    int
-	Label  string
+	WidgetBase
 	Values []bool
 }
 
@@ -76,10 +67,7 @@ func (n *Numbers) Init() {
 }
 
 type Map struct {
-	Style   string
-	Gid     int
-	Wid     int
-	Label   string
+	WidgetBase
 	Values  [][2]float32
 	Types   []string
 	MapType string

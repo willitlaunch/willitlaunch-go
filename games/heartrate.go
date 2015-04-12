@@ -15,10 +15,10 @@ type HeartRateGame struct {
 }
 
 func (hr *HeartRateGame) Init() {
-	hr.HRWidget = widgets.Dial{Gid: hr.Gid, Wid: 0, Label: "Heart Rate", Value: 100, Min: 0, Max: 200}
-	hr.TranqButton = widgets.Button{Gid: hr.Gid, Wid: 1, Label: "Tranquilizers", Value: false}
-	hr.SteroidButton = widgets.Button{Gid: hr.Gid, Wid: 2, Label: "Steroids", Value: false}
-	hr.AEDButton = widgets.Button{Gid: hr.Gid, Wid: 3, Label: "AED", Value: false}
+	hr.HRWidget = widgets.Dial{WidgetBase: widgets.WidgetBase{Gid: hr.Gid, Wid: 0, Label: "Heart Rate"}, Value: 100, Min: 0, Max: 200}
+	hr.TranqButton = widgets.Button{WidgetBase: widgets.WidgetBase{Gid: hr.Gid, Wid: 1, Label: "Tranquilizers"}, Value: false}
+	hr.SteroidButton = widgets.Button{WidgetBase: widgets.WidgetBase{Gid: hr.Gid, Wid: 2, Label: "Steroids"}, Value: false}
+	hr.AEDButton = widgets.Button{WidgetBase: widgets.WidgetBase{Gid: hr.Gid, Wid: 3, Label: "AED"}, Value: false}
 	hr.HRWidget.Init()
 	hr.TranqButton.Init()
 	hr.SteroidButton.Init()
