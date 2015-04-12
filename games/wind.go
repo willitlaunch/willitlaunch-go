@@ -11,7 +11,7 @@ type WindGame struct {
 	LaunchAngle   float32
 	InputAngle    float32
 	AngleWidget   widgets.Dial
-	WindWidget    widgets.Dial
+	WindWidget    widgets.Bar
 	ControlSlider widgets.Slider
 }
 
@@ -20,7 +20,7 @@ func (w *WindGame) Init() {
 	w.LaunchAngle = 90.0
 	w.InputAngle = 90.0
 	w.AngleWidget = widgets.Dial{WidgetBase: widgets.WidgetBase{Gid: w.Gid, Wid: 0, Label: "Rocket Angle"}, Value: 90, Min: 0, Max: 180}
-	w.WindWidget = widgets.Dial{WidgetBase: widgets.WidgetBase{Gid: w.Gid, Wid: 1, Label: "Wind Strength"}, Value: 0, Min: -10, Max: 10}
+	w.WindWidget = widgets.Bar{WidgetBase: widgets.WidgetBase{Gid: w.Gid, Wid: 1, Label: "Wind Strength"}, Value: 0, Min: -10, Max: 10}
 	w.ControlSlider = widgets.Slider{WidgetBase: widgets.WidgetBase{Gid: w.Gid, Wid: 2, Label: "Wind Compensation"}, Value: 0, Min: -30, Max: 30}
 	w.AngleWidget.Init()
 	w.WindWidget.Init()
