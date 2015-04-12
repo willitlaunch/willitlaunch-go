@@ -1,23 +1,25 @@
 package controllers
 
+import (
+  "github.com/willitlaunch/willitlaunch-go/games"
+)
+
 type EECOMController struct {
+  FlightControllerImpl
 }
 
 func (c *EECOMController) Init() {
-}
+  c.Name = "Electrical, Environmental and Consumables Manager (EECOM)"
 
-func (c *EECOMController) Tick() {
-}
+  CLGame := games.CryogenicLevelsGame{GameImpl: games.GameImpl{Gid: 0}}
+  CLGame.Init()
+  c.Games = append(c.Games, &CLGame)
 
-func (c *EECOMController) Update(event Event) {
-}
+  // CPGame := games.CabinPressureGame{Gid: 1}
+  // CPGame.Init()
+  // c.Games = append(c.Games, &CPGame)
 
-func (c *EECOMController) GetInitJSON() []byte {
-	var json []byte
-	return json
-}
-
-func (c *EECOMController) GetTickJSON() []byte {
-	var json []byte
-	return json
+  // BPGame := games.BatteryPowerGame{Gid: 2}
+  // BPGame.Init()
+  // c.Games = append(c.Games, &BPGame)
 }
