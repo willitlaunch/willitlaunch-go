@@ -93,7 +93,6 @@ func missionPoll() {
 		for _, player := range World.players {
 			player.ws.WriteMessage(websocket.TextMessage, msg)
 		}
-		fmt.Println("Waiting on channel...")
 		result := <-World.GoNoGo
 		fmt.Println(result, "!")
 		if !result {
@@ -114,6 +113,10 @@ func missionPoll() {
 	} else {
 		missionSuccess()
 		//missionFailed()
+	}
+
+	for _, player := range World.players {
+		player.ws.Close()
 	}
 }
 
