@@ -81,7 +81,7 @@ func (hr *HeartRateGame) GetInputsState() []interface{} {
 }
 
 func (hr *HeartRateGame) GetOutputsState() []interface{} {
-	return []interface{}{&hr.AEDButton}
+	return []interface{}{&hr.HRWidget}
 }
 
 func (hr *HeartRateGame) GetObjectives() []string {
