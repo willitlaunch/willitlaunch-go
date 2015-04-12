@@ -55,7 +55,7 @@ func (hr *HeartRateGame) UserInteractionUpdate() {
 		hr.HeartRate += medicineEffect()
 	} else if hr.AEDButton.Value {
 		hr.AEDButton.Value = false
-		if hr.HeartRate != 0 {
+		if hr.HeartRate > 10 {
 			// Fibrillation
 			hr.HeartRate = []int{rand.Intn(450) + 100, 0}[rand.Intn(2)]
 		} else {

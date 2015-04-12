@@ -19,7 +19,7 @@ type CryogenicLevelsGame struct {
 	CLBool         widgets.Bool
 	CLSlider       widgets.Slider
 
-	cryogenicFlow float32
+	cryogenicFlow float64
 	broken        bool
 }
 
@@ -43,20 +43,26 @@ func (g *CryogenicLevelsGame) Tick() {
 	g.CLDial.Value = float32(g.CryogenicLevel)
 }
 
-func flowEffect(g *CryogenicLevelsGame) float32 {
-	return float32(g.CryogenicLevel) * (1.0 + g.cryogenicFlow*rand.Float32()*0.3 + 0.05*(rand.Float32()-0.5))
+func flowEffect(g *CryogenicLevelsGame) float64 {
+	return float64(g.CryogenicLevel) * (1.0 + g.cryogenicFlow*rand.Float64()*0.03 + 0.005*(rand.Float64()-0.05))
 }
 
 func (g *CryogenicLevelsGame) UserInteractionUpdate() {
 	level := int(flowEffect(g))
 
 	// if out of bound -> broken
-	if g.broken {
-		return
-	}
+	//if g.broken {
+	//return
+	//}
 
 	if level > lmax || level < lmin {
 		g.broken = true
+		//level = 0
+	}
+
+	if level > 100 {
+		level = 100
+	} else if level <= 0 {
 		level = 0
 		g.CLBool.Value = false
 	}
@@ -66,7 +72,7 @@ func (g *CryogenicLevelsGame) UserInteractionUpdate() {
 
 func (g *CryogenicLevelsGame) Update(event Event) {
 	//TODO: check value is between fmin/fmax
-	g.cryogenicFlow = event.Value.(float32)
+	g.cryogenicFlow = event.Value.(float64)
 }
 
 func (g *CryogenicLevelsGame) GetInputsState() []interface{} {
