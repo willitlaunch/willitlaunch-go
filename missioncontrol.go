@@ -57,6 +57,7 @@ func missionControl() {
 		}
 		if allReady && len(World.players) > 0 {
 			missionPoll()
+			return
 		}
 	}
 }
@@ -72,8 +73,10 @@ func missionSuccess() {
 }
 
 func missionPoll() {
+	World.GoNoGo = make(chan bool)
 	sendAllPlayers("POLL")
 	fmt.Println("OK all mission controllers, Going round the room")
+	time.Sleep(4 * time.Second)
 	for _, player := range World.players {
 		activeName := player.controller.GetName()
 		fmt.Println(activeName, "?")
@@ -81,6 +84,7 @@ func missionPoll() {
 		for _, player := range World.players {
 			player.ws.WriteMessage(websocket.TextMessage, msg)
 		}
+		fmt.Println("Waiting on channel...")
 		result := <-World.GoNoGo
 		fmt.Println(result, "!")
 		if !result {
@@ -99,8 +103,8 @@ func missionPoll() {
 	if allOk {
 		missionSuccess()
 	} else {
-		missionSuccess()
-		//missionFailed()
+		//missionSuccess()
+		missionFailed()
 	}
 }
 
