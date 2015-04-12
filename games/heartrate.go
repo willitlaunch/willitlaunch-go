@@ -6,7 +6,7 @@ import (
 )
 
 type HeartRateGame struct {
-	GameImpl
+	GameBase
 	HeartRate     int
 	HRWidget      widgets.Dial
 	TranqButton   widgets.Button

@@ -5,12 +5,12 @@ import (
 )
 
 type SurgeonController struct {
-	FlightControllerImpl
+	FlightControllerBase
 }
 
 func (c *SurgeonController) Init() {
 	c.Name = "Surgeon"
-	HRGame := games.HeartRateGame{GameImpl: games.GameImpl{Gid: 0}}
+	HRGame := games.HeartRateGame{GameBase: games.GameBase{Gid: 0}}
 	HRGame.Init()
 	c.Games = append(c.Games, &HRGame)
 }

@@ -41,18 +41,18 @@ func GetRandomController() FlightController {
 	return c
 }
 
-type FlightControllerImpl struct {
+type FlightControllerBase struct {
 	Name  string
 	Games []games.Game
 }
 
-func (fc *FlightControllerImpl) Tick() {
+func (fc *FlightControllerBase) Tick() {
 	for _, game := range fc.Games {
 		game.Tick()
 	}
 }
 
-func (fc *FlightControllerImpl) Update(event Event) {
+func (fc *FlightControllerBase) Update(event Event) {
 	for _, game := range fc.Games {
 		if game.GetGid() == event.Gid {
 			evt := games.Event{Gid: event.Gid, Wid: event.Wid, Value: event.Value}
@@ -62,7 +62,7 @@ func (fc *FlightControllerImpl) Update(event Event) {
 	}
 }
 
-func (fc *FlightControllerImpl) GetInitJSON() []byte {
+func (fc *FlightControllerBase) GetInitJSON() []byte {
 	var inputStates []interface{}
 	var outputStates []interface{}
 	var objectives []interface{}
@@ -93,7 +93,7 @@ func (fc *FlightControllerImpl) GetInitJSON() []byte {
 	return out
 }
 
-func (fc *FlightControllerImpl) GetTickJSON() []byte {
+func (fc *FlightControllerBase) GetTickJSON() []byte {
 	var outputStates []interface{}
 	for _, game := range fc.Games {
 		for _, state := range game.GetOutputsState() {
@@ -114,7 +114,7 @@ func (fc *FlightControllerImpl) GetTickJSON() []byte {
 	return out
 }
 
-func (fc *FlightControllerImpl) CheckObjectives() bool {
+func (fc *FlightControllerBase) CheckObjectives() bool {
 	// Emptyset gives true!
 	won := true
 	for _, game := range fc.Games {
