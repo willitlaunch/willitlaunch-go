@@ -115,6 +115,10 @@ func missionPoll() {
 		missionSuccess()
 		//missionFailed()
 	}
+
+	for _, player := range World.players {
+		player.ws.Close()
+	}
 }
 
 func sendAllPlayers(s string) {
