@@ -21,7 +21,7 @@ type Player struct {
 }
 
 func (p *Player) init() {
-	p.controller = controllers.GetRandomController()
+	p.controller = controllers.GetNextController(len(World.players))
 	init_msg := p.controller.GetInitJSON()
 	err := p.ws.WriteMessage(websocket.TextMessage, init_msg)
 	if err == nil {
@@ -55,7 +55,11 @@ func (p *Player) update(msg []byte) {
 	var event controllers.Event
 	err := json.Unmarshal(msg, &event)
 	if err == nil {
-		p.controller.Update(event)
+		if event.Gid == 999 && event.Wid == 1000 {
+			World.GoNoGo <- event.Value.(bool)
+		} else {
+			p.controller.Update(event)
+		}
 	}
 }
 

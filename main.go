@@ -12,7 +12,11 @@ import (
 
 // Store all the players we know about
 var World struct {
-	players map[string]Player
+	players    map[string]Player
+	StartTime  time.Time
+	TimeLeft   time.Duration
+	GameLength time.Duration
+	GoNoGo     chan bool
 }
 
 type Event struct {
@@ -25,8 +29,10 @@ var addr = flag.String("addr", ":8080", "http host:port")
 
 // Start and run the websockets server on the commandline supplied port
 func main() {
-	World.players = make(map[string]Player, 0)
 	rand.Seed(time.Now().UTC().UnixNano())
+	World.players = make(map[string]Player, 0)
+	go missionTimer()
+	go missionControl()
 	http.HandleFunc("/", serveHome)
 	http.HandleFunc("/ws", serveWs)
 	fmt.Printf("Starting web server on %s...\n", *addr)

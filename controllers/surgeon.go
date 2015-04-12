@@ -9,6 +9,7 @@ type SurgeonController struct {
 }
 
 func (c *SurgeonController) Init() {
+	c.FlightControllerBase.Init()
 	c.Name = "Surgeon"
 	HRGame := games.HeartRateGame{GameBase: games.GameBase{Gid: 0}}
 	HRGame.Init()

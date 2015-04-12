@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/willitlaunch/willitlaunch-go/games"
-	"math/rand"
+	"github.com/willitlaunch/willitlaunch-go/widgets"
 )
 
 type Event struct {
@@ -19,15 +19,18 @@ type FlightController interface {
 	Update(event Event)
 	GetInitJSON() []byte
 	GetTickJSON() []byte
+	GetIsReady() bool
+	GetName() string
+	SetName(s string)
+	CheckObjectives() bool
 }
 
-func GetRandomController() FlightController {
-	idx := rand.Int31n(5)
-	idx = 4 // TODO remove this
+func GetNextController(count int) FlightController {
+	ctype := count % 5
 	var c FlightController
-	switch idx {
+	switch ctype {
 	case 0:
-		c = new(ControlController)
+		c = new(SurgeonController)
 	case 1:
 		c = new(EECOMController)
 	case 2:
@@ -35,15 +38,21 @@ func GetRandomController() FlightController {
 	case 3:
 		c = new(GNCController)
 	case 4:
-		c = new(SurgeonController)
+		c = new(ControlController)
 	}
 	c.Init()
+	c.SetName(fmt.Sprintf("%s %d", c.GetName(), count/5+1))
 	return c
 }
 
 type FlightControllerBase struct {
-	Name  string
-	Games []games.Game
+	Name     string
+	Games    []games.Game
+	ReadyBtn widgets.Button
+}
+
+func (fc *FlightControllerBase) Init() {
+	fc.ReadyBtn = widgets.Button{WidgetBase: widgets.WidgetBase{Gid: 999, Wid: 999, Label: "READY"}, Value: false}
 }
 
 func (fc *FlightControllerBase) Tick() {
@@ -59,6 +68,10 @@ func (fc *FlightControllerBase) Update(event Event) {
 			game.Update(evt)
 			return
 		}
+	}
+
+	if event.Gid == 999 {
+		fc.ReadyBtn.Value = event.Value.(bool)
 	}
 }
 
@@ -121,4 +134,16 @@ func (fc *FlightControllerBase) CheckObjectives() bool {
 		won = game.CheckObjectives() && won
 	}
 	return won
+}
+
+func (fc *FlightControllerBase) GetIsReady() bool {
+	return fc.ReadyBtn.Value
+}
+
+func (fc *FlightControllerBase) GetName() string {
+	return fc.Name
+}
+
+func (fc *FlightControllerBase) SetName(s string) {
+	fc.Name = s
 }
