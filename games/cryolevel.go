@@ -6,10 +6,11 @@ import (
 )
 
 const (
-	lmin = 0
-	lmax = 100
-	fmin = -1.0
-	fmax = 1.0
+	lmin      = 0
+	lmax      = 100
+	fmin      = -1.0
+	fmax      = 1.0
+	maxbroken = 100
 )
 
 type CryogenicLevelsGame struct {
@@ -21,6 +22,7 @@ type CryogenicLevelsGame struct {
 
 	cryogenicFlow float64
 	broken        bool
+	count         int
 }
 
 //Cabin Pressure will be more or less identical
@@ -35,6 +37,7 @@ func (g *CryogenicLevelsGame) Init() {
 	g.CryogenicLevel = 50
 	g.cryogenicFlow = 0.5
 	g.broken = false
+	g.count = 0
 }
 
 func (g *CryogenicLevelsGame) Tick() {
@@ -44,20 +47,26 @@ func (g *CryogenicLevelsGame) Tick() {
 }
 
 func flowEffect(g *CryogenicLevelsGame) float64 {
-	return float64(g.CryogenicLevel) * (1.0 + g.cryogenicFlow*rand.Float64()*0.03 + 0.005*(rand.Float64()-0.05))
+	return float64(g.CryogenicLevel) * (1.0 + g.cryogenicFlow*rand.Float64()*0.03 + 0.005*(rand.Float64()-0.5))
 }
 
 func (g *CryogenicLevelsGame) UserInteractionUpdate() {
 	level := int(flowEffect(g))
 
-	// if out of bound -> broken
-	//if g.broken {
-	//return
-	//}
+	// if out of bound -> broken, but not for too long
+	if g.count > maxbroken {
+		level = rand.Intn(lmax-lmin) + lmin
+		g.count = 0
+		g.broken = false
+		g.CLBool.Value = false
+	}
+	if g.broken {
+		level = rand.Intn(lmax-lmin) + lmin
+		g.count += 1
+	}
 
-	if level > lmax || level < lmin {
+	if level >= lmax || level <= lmin {
 		g.broken = true
-		//level = 0
 	}
 
 	if level > 100 {

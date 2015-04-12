@@ -45,7 +45,7 @@ func (g *CabinPressureGame) Tick() {
 }
 
 func pressuriserEffect(g *CabinPressureGame) float64 {
-	return float64(g.CabinPressure) * (1.0 + g.pressuriser*0.5 + 0.05*(rand.Float64()-0.5))
+	return float64(g.CabinPressure) * (1.0 + g.pressuriser*0.03 + 0.005*(rand.Float64()-0.5))
 }
 
 func (g *CabinPressureGame) UserInteractionUpdate() {
