@@ -37,6 +37,8 @@ func (hr *HeartRateGame) Tick() {
 	if hr.HeartRate > 300 || hr.HeartRate < 0 {
 		hr.HeartRate = 0
 	}
+
+	hr.HRWidget.Value = float32(hr.HeartRate)
 }
 
 func (hr *HeartRateGame) GetGid() int {
