@@ -61,7 +61,7 @@ func (hr *HeartRateGame) UserInteractionUpdate() {
 		hr.AEDButton.Value = false
 		if hr.HeartRate != 0 {
 			// Fibrillation
-			hr.HeartRate = rand.Intn(450) + 50
+			hr.HeartRate = []int{rand.Intn(450) + 100,0}[rand.Intn(2)]
 		} else {
 			hr.HeartRate += rand.Intn(20) + 60
 		}
