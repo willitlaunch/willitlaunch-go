@@ -20,21 +20,21 @@ const (
 	pmin         = 0
 	pmax         = 100 //Find a sensible value here...
 	pminoutbound = 66
-	smin         = -1.0
-	smax         = 1.0
+	smin         = -10
+	smax         = 10
 )
 
 //Cabin Pressure will be more or less identical
 
 func (g *CabinPressureGame) Init() {
 	g.CLDial = widgets.Dial{WidgetBase: widgets.WidgetBase{Gid: g.Gid, Wid: 0, Label: "Cabin pressure level"}, Value: 50, Min: pmin, Max: pmax}
-	g.CLPressuriserSlider = widgets.Slider{WidgetBase: widgets.WidgetBase{Gid: g.Gid, Wid: 1, Label: "Pressuriser"}, Value: 0.2, Min: smin, Max: smax}
+	g.CLPressuriserSlider = widgets.Slider{WidgetBase: widgets.WidgetBase{Gid: g.Gid, Wid: 1, Label: "Pressuriser"}, Value: 2, Min: smin, Max: smax}
 	g.CLResetButton = widgets.Button{WidgetBase: widgets.WidgetBase{Gid: g.Gid, Wid: 2, Label: "Reboot pressuirser system"}, Value: false}
 	g.CLDial.Init()
 	g.CLPressuriserSlider.Init()
 	g.CLResetButton.Init()
 	g.CabinPressure = 50
-	g.pressuriser = 0.2
+	g.pressuriser = 2
 	g.broken = false
 }
 
@@ -45,7 +45,7 @@ func (g *CabinPressureGame) Tick() {
 }
 
 func pressuriserEffect(g *CabinPressureGame) float64 {
-	return float64(g.CabinPressure) * (1.0 + g.pressuriser*0.03 + 0.005*(rand.Float64()-0.5))
+	return float64(g.CabinPressure) * (1.0 + g.pressuriser*0.03/20 + 0.005*(rand.Float64()-0.5))
 }
 
 func (g *CabinPressureGame) UserInteractionUpdate() {
