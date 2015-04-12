@@ -16,9 +16,9 @@ func (c *EECOMController) Init() {
 	CLGame.Init()
 	c.Games = append(c.Games, &CLGame)
 
-	// CPGame := games.CabinPressureGame{Gid: 1}
-	// CPGame.Init()
-	// c.Games = append(c.Games, &CPGame)
+	CPGame := games.CabinPressureGame{Gid: 1}
+	CPGame.Init()
+	c.Games = append(c.Games, &CPGame)
 
 	// BPGame := games.BatteryPowerGame{Gid: 2}
 	// BPGame.Init()

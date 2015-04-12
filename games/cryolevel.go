@@ -5,10 +5,18 @@ import (
 	"math/rand"
 )
 
+const (
+	lmin = 0
+	lmax = 100
+	fmin = -1.0
+	fmax = 1.0
+)
+
 type CryogenicLevelsGame struct {
 	GameBase
 	CryogenicLevel int
-	CLWidget       widgets.Dial
+	CLDial         widgets.Dial
+	CLBool         widgets.Bool
 	CLSlider       widgets.Slider
 
 	cryogenicFlow float32
@@ -18,10 +26,12 @@ type CryogenicLevelsGame struct {
 //Cabin Pressure will be more or less identical
 
 func (g *CryogenicLevelsGame) Init() {
-	g.CLWidget = widgets.Dial{WidgetBase: widgets.WidgetBase{Gid: g.Gid, Wid: 0, Label: "Cryogenic liquid level"}, Value: 50, Min: 0, Max: 100}
-	g.CLSlider = widgets.Slider{WidgetBase: widgets.WidgetBase{Gid: g.Gid, Wid: 1, Label: "Cryogenic liquid flow"}, Value: 0.5, Min: -1.0, Max: 1.0}
-	g.CLWidget.Init()
+	g.CLDial = widgets.Dial{WidgetBase: widgets.WidgetBase{Gid: g.Gid, Wid: 0, Label: "Cryogenic liquid level"}, Value: 50, Min: lmin, Max: lmax}
+	g.CLSlider = widgets.Slider{WidgetBase: widgets.WidgetBase{Gid: g.Gid, Wid: 1, Label: "Cryogenic liquid flow"}, Value: 0.5, Min: fmin, Max: fmax}
+	g.CLBool = widgets.Bool{WidgetBase: widgets.WidgetBase{Gid: g.Gid, Wid: 1, Label: "Fuel cells active"}, Value: true}
+	g.CLDial.Init()
 	g.CLSlider.Init()
+	g.CLBool.Init()
 	g.CryogenicLevel = 50
 	g.cryogenicFlow = 0.5
 	g.broken = false
@@ -30,7 +40,7 @@ func (g *CryogenicLevelsGame) Init() {
 func (g *CryogenicLevelsGame) Tick() {
 	g.UserInteractionUpdate()
 
-	g.CLWidget.Value = float32(g.CryogenicLevel)
+	g.CLDial.Value = float32(g.CryogenicLevel)
 }
 
 func flowEffect(g *CryogenicLevelsGame) float32 {
@@ -45,15 +55,17 @@ func (g *CryogenicLevelsGame) UserInteractionUpdate() {
 		return
 	}
 
-	if level > 100 || level < 0 {
+	if level > lmax || level < lmin {
 		g.broken = true
 		level = 0
+		g.CLBool.Value = false
 	}
 
 	g.CryogenicLevel = level
 }
 
 func (g *CryogenicLevelsGame) Update(event Event) {
+	//TODO: check value is between fmin/fmax
 	g.cryogenicFlow = event.Value.(float32)
 }
 
@@ -62,12 +74,12 @@ func (g *CryogenicLevelsGame) GetInputsState() []interface{} {
 }
 
 func (g *CryogenicLevelsGame) GetOutputsState() []interface{} {
-	return []interface{}{&g.CLWidget}
+	return []interface{}{&g.CLDial, &g.CLBool}
 }
 
 func (g *CryogenicLevelsGame) GetObjectives() []string {
 	//healthy:  35 < mid range < 65
-	return []string{"Cryogenic Liquid must not overflow", "Cryogenic Liquid must not completely vanish", "Cryogenic Liquid must stay in a mid range"}
+	return []string{"Fuel cells must be active", "Cryogenic Liquid must stay in a mid range"}
 }
 
 func (g *CryogenicLevelsGame) CheckObjectives() bool {
