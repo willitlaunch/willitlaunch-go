@@ -24,7 +24,7 @@ func (p *Player) init() {
 	p.controller = controllers.GetRandomController()
 	init_msg := p.controller.GetInitJSON()
 	err := p.ws.WriteMessage(websocket.TextMessage, init_msg)
-	if err != nil {
+	if err == nil {
 		go p.listen()
 		go p.run()
 	} else {
